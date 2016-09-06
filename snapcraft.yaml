@@ -6,15 +6,10 @@ confinement: strict
 
 apps:
   charm:
-    command: bin/charm-cmd.wrapper
+    command: env PREFIX=$SNAP GIT_EXEC_PATH=$SNAP/usr/lib/git-core LC_ALL=C.UTF-8 $SNAP/bin/charm
     plugs: [network, network-bind, home]
 
 parts:
-  wrapper:
-    plugin: dump
-    source: .
-    organize:
-      charm-cmd.wrapper: bin/charm-cmd.wrapper
   charm:
     plugin: godeps
     go-importpath: github.com/juju/charmstore-client
