@@ -8,7 +8,6 @@ apps:
   charm:
     command: env PREFIX=$SNAP GIT_EXEC_PATH=$SNAP/usr/lib/git-core LC_ALL=C.UTF-8 $SNAP/bin/charm
     plugs: [network, network-bind, home]
-
 parts:
   charm:
     plugin: godeps
@@ -16,6 +15,8 @@ parts:
     source: https://github.com/juju/charmstore-client.git
     source-tag: 2.2.0
     source-type: git
+    build-packages:
+      - bzr
   charm-terms:
     plugin: godeps
     go-importpath: github.com/juju/terms-client
@@ -23,14 +24,26 @@ parts:
     source-tag: v1.0.1
     source-type: git
   charm-tools:
-    plugin: python2
+    plugin: python
     source: https://github.com/juju/charm-tools.git
-    source-branch: master
+    python-version: python2
+    source-branch: "2.1"
+    build-packages:
+      - build-essential
+    python-packages:
+      - simplejson
+      - launchpadlib
     stage-packages:
-      - python-launchpadlib
       - bzr
       - mercurial
       - python-apt
+    stage:
+      - -bin/virtualenv
+  virtualenv:
+    plugin: python
+    python-version: python3
+    python-packages:
+      - virtualenv
   git:
     plugin: nil
     stage-packages:
