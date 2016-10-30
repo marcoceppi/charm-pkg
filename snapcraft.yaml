@@ -39,6 +39,11 @@ parts:
       - python-apt
     stage:
       - -bin/virtualenv
+  charm-version:
+    plugin: dump
+    source: workarounds
+    stage:
+      - charmstore-client-version
   virtualenv:
     plugin: python
     python-version: python3
